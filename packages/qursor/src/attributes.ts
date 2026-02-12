@@ -29,6 +29,7 @@ const handleMouseEnter = (e: Event) => {
       }
     }
 
+    currentContext.setTargetElement(target);
     variantStack.push(currentContext.variant);
     currentContext.setVariant(variant, meta);
   }
@@ -41,6 +42,7 @@ const handleMouseLeave = (e: Event) => {
   const variant = target.getAttribute("data-cursor");
 
   if (variant && variantStack.length > 0) {
+    currentContext.setTargetElement(null);
     const previousVariant = variantStack.pop();
     if (previousVariant) {
       currentContext.setVariant(previousVariant);

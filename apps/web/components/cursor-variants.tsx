@@ -2,19 +2,41 @@
 
 import type { CursorComponentProps } from "qursor";
 
-export const CustomCursor = ({ isHidden, variant }: CursorComponentProps) => {
-  const isHover = variant === "hover";
+export const CustomCursor = ({
+  isHidden,
+  variant,
+  x,
+  y,
+  targetRect,
+}: CursorComponentProps) => {
+  const isMorphing = variant === "hover" && !!targetRect;
+
+  // Morph to target element dimensions, or fall back to default circle
+  const width = isMorphing ? targetRect.width : 16;
+  const height = isMorphing ? targetRect.height : 16;
+  const borderRadius = isMorphing ? targetRect.borderRadius : "50%";
+  const opacity = isHidden ? 0 : isMorphing ? 0.15 : 0.5;
+
+  // Offset to center the cursor on the target element
+  const offsetX = isMorphing ? targetRect.x + targetRect.width / 2 - x : 0;
+  const offsetY = isMorphing ? targetRect.y + targetRect.height / 2 - y : 0;
 
   return (
     <div
       style={{
-        width: 16,
-        height: 16,
+        width,
+        height,
         backgroundColor: "white",
-        borderRadius: "50%",
-        transform: `translate(-50%, -50%) scale(${isHover ? 3 : 1})`,
-        opacity: isHidden ? 0 : 0.5,
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        borderRadius,
+        transform: `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`,
+        opacity,
+        transition: [
+          "width 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          "height 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          "border-radius 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          "opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+          "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+        ].join(", "),
       }}
     />
   );

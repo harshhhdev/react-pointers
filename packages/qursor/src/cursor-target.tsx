@@ -10,24 +10,33 @@ export function CursorTarget({
   disabled = false,
   meta,
 }: CursorTargetProps) {
-  const { setVariant, pushVariant, popVariant } = useCursor();
-  const originalVariantRef = useRef<string>("");
-  const originalMetaRef = useRef<Record<string, any>>({});
+  const { pushVariant, popVariant, setTargetElement } = useCursor();
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  const getTargetElement = useCallback((): Element | null => {
+    if (!wrapperRef.current) return null;
+    // With display: contents, the span has no box.
+    // The first child element is the actual interactive element.
+    return wrapperRef.current.firstElementChild || null;
+  }, []);
 
   const handleMouseEnter = useCallback(() => {
     if (disabled) return;
 
-    originalVariantRef.current = variant;
-    originalMetaRef.current = meta || {};
+    const targetEl = getTargetElement();
+    if (targetEl) {
+      setTargetElement(targetEl);
+    }
 
     pushVariant(variant, { meta });
-  }, [disabled, variant, meta, pushVariant]);
+  }, [disabled, variant, meta, pushVariant, setTargetElement, getTargetElement]);
 
   const handleMouseLeave = useCallback(() => {
     if (disabled) return;
 
+    setTargetElement(null);
     popVariant();
-  }, [disabled, popVariant]);
+  }, [disabled, popVariant, setTargetElement]);
 
   const handleFocus = useCallback(() => {
     if (disabled) return;
@@ -41,6 +50,7 @@ export function CursorTarget({
 
   return (
     <span
+      ref={wrapperRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleFocus}

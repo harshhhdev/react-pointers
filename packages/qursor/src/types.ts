@@ -2,12 +2,21 @@ import { ReactNode, ComponentType } from "react";
 
 export type CursorVariantName = string;
 
+export interface TargetRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  borderRadius: string;
+}
+
 export interface CursorComponentProps {
   x: number;
   y: number;
   isHidden: boolean;
   variant: CursorVariantName;
   meta?: Record<string, any>;
+  targetRect?: TargetRect | null;
 }
 
 export type CursorComponent = ComponentType<CursorComponentProps>;
@@ -55,6 +64,7 @@ export interface CursorContextValue {
     component: CursorComponent
   ) => void;
   setMeta: (meta: Record<string, any>) => void;
+  setTargetElement: (element: Element | null) => void;
   isEnabled: boolean;
 }
 
@@ -64,6 +74,7 @@ export interface CursorState {
   variant: CursorVariantName;
   isHidden: boolean;
   meta: Record<string, any>;
+  targetRect: TargetRect | null;
 }
 
 export type CursorVariantStack = Array<{

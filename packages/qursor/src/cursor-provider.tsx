@@ -20,6 +20,7 @@ import type {
   CursorVariantMap,
   CursorConfig,
   PushVariantOptions,
+  TargetRect,
 } from "./types";
 
 const CursorContext = createContext<CursorContextValue | null>(null);
@@ -54,6 +55,7 @@ export function CursorProvider({
     variant: DEFAULT_VARIANT,
     isHidden: true,
     meta: {},
+    targetRect: null,
   });
 
   const [currentState, setCurrentState] = useState<CursorState>(
@@ -63,6 +65,8 @@ export function CursorProvider({
   const rafRef = useRef<number | undefined>(undefined);
   const targetPositionRef = useRef({ x: 0, y: 0 });
   const isInputFocusedRef = useRef(false);
+  const targetElementRef = useRef<Element | null>(null);
+  const targetBorderRadiusRef = useRef<string>("");
 
   useEffect(() => {
     setIsMounted(true);
@@ -148,17 +152,30 @@ export function CursorProvider({
     const state = stateRef.current;
     const target = targetPositionRef.current;
 
+    // Refresh target rect if tracking an element
+    let targetRect: TargetRect | null = null;
+    if (targetElementRef.current) {
+      const rect = targetElementRef.current.getBoundingClientRect();
+      targetRect = {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        borderRadius: targetBorderRadiusRef.current,
+      };
+    }
+
     if (finalConfig.trailing > 0) {
       const newX = lerp(state.x, target.x, finalConfig.trailing);
       const newY = lerp(state.y, target.y, finalConfig.trailing);
 
-      updateState({ x: newX, y: newY });
+      updateState({ x: newX, y: newY, targetRect });
 
       if (Math.abs(newX - target.x) > 0.5 || Math.abs(newY - target.y) > 0.5) {
         rafRef.current = requestAnimationFrame(animatePosition);
       }
     } else {
-      updateState({ x: target.x, y: target.y });
+      updateState({ x: target.x, y: target.y, targetRect });
     }
   }, [isEnabled, finalConfig.trailing, lerp, updateState]);
 
@@ -281,6 +298,30 @@ export function CursorProvider({
     [updateState]
   );
 
+  const setTargetElement = useCallback(
+    (element: Element | null) => {
+      targetElementRef.current = element;
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const computed = getComputedStyle(element);
+        targetBorderRadiusRef.current = computed.borderRadius;
+        updateState({
+          targetRect: {
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height,
+            borderRadius: computed.borderRadius,
+          },
+        });
+      } else {
+        targetBorderRadiusRef.current = "";
+        updateState({ targetRect: null });
+      }
+    },
+    [updateState]
+  );
+
   const contextValue = useMemo<CursorContextValue>(
     () => ({
       variant: currentState.variant,
@@ -289,6 +330,7 @@ export function CursorProvider({
       popVariant,
       setVariantComponent,
       setMeta,
+      setTargetElement,
       isEnabled,
     }),
     [
@@ -298,6 +340,7 @@ export function CursorProvider({
       popVariant,
       setVariantComponent,
       setMeta,
+      setTargetElement,
       isEnabled,
     ]
   );

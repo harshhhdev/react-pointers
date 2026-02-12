@@ -79,6 +79,7 @@ export function CursorPortal({
         isHidden={state.isHidden}
         variant={state.variant}
         meta={state.meta}
+        targetRect={state.targetRect}
       />
     </div>
   );

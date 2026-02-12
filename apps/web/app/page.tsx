@@ -150,7 +150,7 @@ export default function Page() {
           rel="noopener noreferrer"
           draggable={false}
           data-cursor="hover"
-          className="group active:scale-[.98] text-sm inline-flex items-center rounded-full hover:bg-white/10 pl-5 pr-6 py-2.5 transition"
+          className="group active:scale-[.98] text-sm inline-flex items-center rounded-full pl-5 pr-6 py-2.5 transition"
         >
           Get Started
           <svg

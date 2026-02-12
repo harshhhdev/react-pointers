@@ -13,4 +13,5 @@ export type {
   CursorContextValue,
   CursorState,
   CursorVariantStack,
+  TargetRect,
 } from "./types";
