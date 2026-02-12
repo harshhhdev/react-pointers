@@ -82,5 +82,3 @@ function App() {
   );
 }
 ```
-
-See the [full documentation](./packages/qursor/README.md) for detailed API reference, examples, and advanced usage patterns.
