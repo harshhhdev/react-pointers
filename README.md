@@ -82,3 +82,7 @@ function App() {
   );
 }
 ```
+
+*** 
+
+Built by [Harsh Singh](https://harshsingh.me)
