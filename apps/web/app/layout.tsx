@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import { CursorProvider } from "qursor";
 import "qursor/styles.css";
@@ -109,6 +110,11 @@ export default function RootLayout({
         <CursorProvider variants={cursorVariants} config={{ trailing: 0.12 }}>
           {children}
         </CursorProvider>
+        <Script
+          defer
+          src="https://stats.harshsingh.me/script.js"
+          data-website-id="fa4bf95e-1d3b-4b96-bcc2-1e0e519102b5"
+        />
       </body>
     </html>
   );

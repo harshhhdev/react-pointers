@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "pointers.js",
+      "name": "qursor",
       "devDependencies": {
         "prettier": "^3.6.2",
         "turbo": "^2.5.6",

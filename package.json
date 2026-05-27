@@ -1,5 +1,5 @@
 {
-  "name": "pointers.js",
+  "name": "qursor",
   "private": true,
   "scripts": {
     "build": "turbo run build",
