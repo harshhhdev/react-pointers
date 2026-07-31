@@ -112,8 +112,8 @@ export default function RootLayout({
         </CursorProvider>
         <Script
           defer
-          src="https://stats.harshsingh.me/script.js"
-          data-website-id="fa4bf95e-1d3b-4b96-bcc2-1e0e519102b5"
+          src="https://admin.harshsingh.me/script.js"
+          data-website-id="f8b3eb26-9ddb-4172-bbe6-94104bdedc88"
         />
       </body>
     </html>
