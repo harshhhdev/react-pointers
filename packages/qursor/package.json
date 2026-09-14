@@ -61,7 +61,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haaarshsingh/pointers.js.git",
+    "url": "git+https://github.com/haaarshsingh/qursor.git",
     "directory": "packages/qursor"
   }
 }
