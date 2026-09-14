@@ -1,6 +1,6 @@
 {
   "name": "qursor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plug n' play cursors for React.",
   "type": "module",
   "main": "./dist/index.js",
@@ -53,5 +53,15 @@
   ],
   "sideEffects": [
     "./dist/styles.css"
-  ]
+  ],
+  "author": {
+    "name": "Harsh Singh",
+    "email": "h@harshsingh.me",
+    "url": "https://www.harshsingh.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haaarshsingh/pointers.js.git",
+    "directory": "packages/qursor"
+  }
 }
